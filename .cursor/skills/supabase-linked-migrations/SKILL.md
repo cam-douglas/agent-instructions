@@ -52,6 +52,7 @@ metadata:
 
 ## Related files
 
+- `assets/skill-feedback-template.md` — optional structured feedback for improving this skill
 - `references/agent-handover.md` — optional project handover pointer
 - `references/upstream-supabase-skill.md` — optional upstream product/security patterns
 - `/TOOLS.md` — Supabase tool entries

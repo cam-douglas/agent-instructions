@@ -49,6 +49,8 @@ metadata:
 
 ## Related files
 
+- `assets/skill-feedback-template.md`
 - `references/agent-handover.md`
+- `references/official-cli-docs.md`
 - `/TOOLS.md` (Vercel CLI + platform)
 - `/memory/runbooks/vercel-workflow.md`

@@ -2,17 +2,37 @@
 
 ## Current Objective
 
-- No active objective.
+- None.
 
 ## Current Status
 
-- Idle — ready for project intake.
+- Idle — no active task in this workspace.
 
 ## Project Phase
 
 - None.
 
 ## Active Plan
+
+- None.
+
+## Active Workstream
+
+- None.
+
+## Active Role and Gate
+
+- None.
+
+## Predecessor Handoff
+
+- None.
+
+## Pending Remediation
+
+- None recorded.
+
+## Owner Decision
 
 - None.
 
@@ -26,13 +46,7 @@
 
 ## Files in Active Use
 
-- `/AGENTS.md`
-- `/USER.md`
-- `/STATE.md`
-- `/INSTRUCTIONS.md`
-- `/SKILLS.md`
-- `/TOOLS.md`
-- `/memory/MEMORY.md`
+- None.
 
 ## Open Blockers
 
@@ -44,16 +58,16 @@
 
 ## Decisions and Assumptions
 
-- None.
+- None recorded for this workspace. Load relevant control-plane procedures from `/config/README.md` or `/memory/runbooks/agent-workspace.md` only when needed.
 
 ## Current Working State
 
-- The agent control plane is available. Run the session bootstrap and route the next substantive request through `INSTRUCTIONS.md`.
+- Template baseline. When the host permits execution, run read-only `node .cursor/skills/launch-pipeline/scripts/preflight.mjs`; bootstrap only when materialization/repair is needed and implementation is authorized.
 
 ## Next Actions
 
-- On a new project or major feature, activate `/instructions/PROJECT_PLANNING.md` and create `docs/plans/phase_0_foundations_plan.md` before implementation.
+- Start from the user's request. Use proportional planning; `/launch-pipeline` starts the complete lifecycle only when explicitly invoked or requested.
 
 ## Last Updated
 
-- 2026-07-11 — baseline autonomous planning and instruction-routing system established.
+- 2026-09-18 — generic template baseline. Template-development history for this source repository is retained under `/memory/memories/template-source/`. Consumer copies should keep their own `STATE.md` and `memory/` rather than inheriting those logs.

@@ -1,73 +1,45 @@
 # SUBAGENTS.md
 
-## Role
+## Role and activation
 
-Use sub-agents as bounded specialists while retaining one lead agent responsible for scope, integration, validation, and final decisions.
+Delegate independently useful investigation, implementation, or review while retaining one lead responsible for scope, integration, verification, and the final result. Use delegation when independence or specialist evidence justifies its context, latency, and coordination cost. Do not create a workstream merely because a subagent is available.
 
-## Activation
+## Bounded delegation — default
 
-Use one or more sub-agents when:
+A task packet is sufficient for ordinary mapping, research, implementation, test design, or independent review. Include:
 
-- independent investigations can run in parallel
-- repository mapping is broad
-- research and implementation can be separated
-- tests, security, accessibility, performance, or architecture need an independent review
-- a strategy blueprint requires separate market, competitor, architecture, or distribution analysis
-- a complex plan benefits from adversarial gap analysis
+- objective, non-goals, and acceptance criteria;
+- exact repository/worktree and allowed read/write paths, or `read-only`;
+- applicable constraints, relevant source references and revision when useful;
+- existing decisions and evidence the worker must verify;
+- expected output, checks, limitations, and stop/escalation conditions;
+- ownership boundaries and the lead responsible for integration.
 
-Do not use sub-agents for trivial tasks, tightly coupled edits, or work where coordination costs exceed the benefit.
+Supply only context needed for the assignment. Reuse applicable instructions already delivered by the host or parent; do not require a delegate to read every control file or run lead-session preflight/bootstrap. Shared `STATE.md`, history, `/INSTRUCTIONS.md`, `/instructions/LAUNCH.md`, and `/instructions/ROLES.md` are not mandatory inputs for a bounded packet. Read a specific missing instruction or source only when its relevance requires it. Never assume unseen evidence has been verified.
 
-## Required briefing
+A bounded brief can serve as the charter and concise plan. Return findings or changed paths, validation evidence, assumptions, and unresolved items to the lead. No six-role matrix, persistent role directory, owner handoff document, or exhaustive plan is required. Domain safety constraints still apply, and a material security or release gate must not be disguised as a low-risk bounded task.
 
-Every sub-agent brief must include:
+## Formal role pipeline — conditional
 
-- role
-- objective
-- why the task is delegated
-- required context files to read
-- exact paths it may inspect
-- exact paths it may edit, or `read-only`
-- non-goals and prohibited actions
-- assumptions already decided
-- required output format
-- required validation/evidence
-- completion criteria
+Load `/instructions/ROLES.md` when the user requests a formal role pipeline, material multi-role handoffs need coordination, or consequential security/release gates apply. `/instructions/LAUNCH.md` participates only when its named lifecycle was explicitly invoked.
 
-Every sub-agent must read `/AGENTS.md` and `/INSTRUCTIONS.md`, plus the active plan/instruction files relevant to its assignment.
+The six stable formal role IDs are:
 
-## Write ownership
+- `product-manager-subagent`
+- `ui-ux-developer-subagent`
+- `software-engineer-subagent`
+- `security-engineer-subagent`
+- `growth-marketing-subagent`
+- `project-lead-subagent`
 
-Avoid concurrent writes to the same file. Prefer:
+For formal assignments, add task/workstream ID, risk tier, manifest, charter, role plan, relevant predecessor handoffs, assigned role-contract sections, gate criteria, and downstream owner to the task packet. Load the common formal contract and only the assigned role body. Preserve its required/skipped-role records, charter/plan/evidence/handoff artifacts, supported verdicts, and remediation rules. Reading domain guidance or invoking a narrow specialist alone does not activate every formal artifact.
 
-- read-only specialist reports returned to the lead agent
-- separate output files under `docs/` with explicit ownership
-- disjoint source-file ownership
-- one lead-agent integration pass
+## Ownership and handoff
 
-Sub-agents must not alter shared `STATE.md`, `MEMORY.md`, active blockers, or the active plan unless explicitly assigned sole ownership for that file.
+Use disjoint write paths or separate worktrees, read-only reports, and a single integration owner. A worktree does not isolate databases, ports, credentials, or external state. Subagents must not edit shared state, memory, plans, blockers, or manifests without explicit sole ownership. Read-only workers return content for the lead to materialize when persistence is useful.
 
-## Recommended specialist roles
+Within a formal pipeline, respect predecessor evidence and dependency order. `BLOCKED` returns to the owning role; a downstream `CONDITIONAL` is permissible only under the canonical contract. Materialize formal evidence before advancing its gate. Ordinary bounded reports can remain in the task result.
 
-- repository auditor
-- market/problem researcher
-- competitor analyst
-- architecture reviewer
-- implementation specialist
-- test designer
-- security/privacy reviewer
-- accessibility/performance reviewer
-- deployment/integration reviewer
-- documentation and final-checklist auditor
+## Lead integration and closure
 
-## Lead-agent integration
-
-After sub-agents finish, the lead agent must:
-
-1. inspect all findings and diffs
-2. reject unsupported or duplicated conclusions
-3. reconcile conflicts against user intent and repository evidence
-4. integrate changes in dependency order
-5. run project-wide validation
-6. update the active plan and state with verified results only
-
-Sub-agent output is evidence, not authority.
+Inspect each finding and diff, reject unsupported conclusions, resolve conflicts, integrate in dependency order, and run relevant checks on the combined result. Update existing plans and materially changed resumable state; for formal work also record gate status and canonical handoffs. Report incomplete verification honestly. Subagent output is evidence, not authority, and delegation never authorizes external actions or policy bypass.

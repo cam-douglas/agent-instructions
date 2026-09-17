@@ -247,6 +247,44 @@ Prefer built-in project scripts and official tooling over improvised alternative
 
 ---
 
+### Tool: Product lifecycle launcher
+
+**Category**
+
+- agent orchestration / skill / internal file
+
+**Purpose**
+
+- Start, resume, remediate, or close the complete linked product pipeline from one parent Agent.
+
+**When to use**
+
+- Raw ideas, new products, major features, migrations, active-workstream resumption, failed-gate remediation, release closure, or explicit `/launch-pipeline` invocation.
+
+**How to access**
+
+- Invoke `/launch-pipeline` in Cursor Agent, or ask the parent Agent to follow `/instructions/LAUNCH.md`.
+
+**Common operations**
+
+- Run read-only preflight; classify the lifecycle mode and risk; ask only for unresolved consequential decisions; present the activation summary; include `bash .cursor/scripts/bootstrap.sh` as the closing first post-Build action in the pre-Build plan; after Build or explicit Agent-mode authorization, run that bootstrap command as the first mutation; activate Strategy, Project Planning, Subagents, and Roles as needed; create/resume workstream artifacts; launch required roles directly; reconcile gates; prepare the owner handoff.
+- Run preflight with `node .cursor/skills/launch-pipeline/scripts/preflight.mjs`.
+- Validate linkage with `node .cursor/skills/launch-pipeline/scripts/validate-launch.mjs`.
+
+**Constraints**
+
+- Keep one parent Agent responsible for orchestration. Build approval and role identity do not authorize production or external mutation.
+
+**Related files**
+
+- `/skills/launch-pipeline/SKILL.md`
+- `/instructions/LAUNCH.md`
+- `/INSTRUCTIONS.md`
+- `/instructions/ROLES.md`
+- `/STATE.md`
+
+---
+
 ### Tool: Sub-agents / task delegation
 
 **Category**
@@ -263,7 +301,7 @@ Prefer built-in project scripts and official tooling over improvised alternative
 
 **How to access**
 
-- Use the available task or sub-agent capability for the current environment; follow `/instructions/SUBAGENTS.md`.
+- Use the available task or sub-agent capability for the current environment; follow `/instructions/SUBAGENTS.md` and select canonical role IDs through `/instructions/ROLES.md`.
 
 **Constraints**
 
@@ -272,6 +310,8 @@ Prefer built-in project scripts and official tooling over improvised alternative
 **Related files**
 
 - `/instructions/SUBAGENTS.md`
+- `/instructions/ROLES.md`
+- `/agents/`
 - `/AGENTS.md`
 
 ---
@@ -284,11 +324,11 @@ Prefer built-in project scripts and official tooling over improvised alternative
 
 **Purpose**
 
-- Idempotently create root documentation directories, maintain memory directories, repair the settings compatibility link, and validate required agent files.
+- Serve as the cornerstone first mutating gate after launch planning: idempotently create root documentation and agent-system directories, seed missing indexes, maintain memory directories, repair the settings compatibility link, and validate required agent files.
 
 **When to use**
 
-- At the beginning of every new agent session and after installing or moving the agent configuration tree.
+- After Build or explicit Agent-mode implementation authorization in `/launch-pipeline`, at authorized new-session materialization, and after installing or moving the agent configuration tree. Use read-only preflight before mutation.
 
 **How to access**
 
@@ -304,4 +344,144 @@ Prefer built-in project scripts and official tooling over improvised alternative
 - `/scripts/bootstrap.sh`
 - `/memory/runbooks/agent-config-bootstrap.md`
 - `/memory/runbooks/agent-workspace.md`
+
+---
+
+### Tool: Figma and visual design tooling
+
+**Category**
+
+- plugin / integration / MCP / browser
+
+**Purpose**
+
+- Inspect product visuals, Figma files, screenshots, flows, components, and design-system evidence for UI/UX planning.
+
+**When to use**
+
+- The `ui-ux-developer-subagent` charter includes interface, usability, accessibility, responsive, interaction, or visual-system work.
+
+**How to access**
+
+- Inspect the current session's tool descriptors before use. The workspace enables the Figma plugin in `/config/settings.json`, but configuration does not prove authentication, file access, or write permission.
+
+**Constraints**
+
+- UI/UX work remains plan/design-only unless source implementation is explicitly delegated to `software-engineer-subagent`.
+- Never claim a Figma inspection, edit, screenshot, or usability result that was not actually performed.
+- External mutations require explicit scope and remain subject to hooks, provider permissions, and owner approval.
+
+**Related files**
+
+- `/config/settings.json`
+- `/instructions/ROLES.md`
+
+---
+
+### Tool: Analytics warehouse / BigQuery-class integration
+
+**Category**
+
+- database / analytics / MCP / API
+
+**Purpose**
+
+- Query approved product analytics for baselines, funnels, cohorts, retention, attribution, and experiment evaluation.
+
+**When to use**
+
+- A product or growth charter requires evidence that exists in an authorized analytics source.
+
+**How to access**
+
+- Discover the current session's available MCP/API tools and inspect their schemas before invocation. Treat BigQuery or equivalent access as unavailable until authentication and dataset scope are verified.
+
+**Constraints**
+
+- Default to read-only, aggregate, privacy-preserving queries.
+- Do not query unnecessary personal or sensitive data, fabricate unavailable metrics, write datasets, launch campaigns, or change production analytics without explicit owner authorization.
+- Record query scope, time range, caveats, and evidence location in the role handoff; never copy credentials or raw sensitive rows into markdown.
+
+**Related files**
+
+- `/instructions/ROLES.md`
+- `docs/workstreams/`
+
+---
+
+### Tool: Git safety
+
+**Category**
+
+- security / git / hook / skill
+
+**Purpose**
+
+- Force every agent git write to use the Cursor anonymous email and keep secrets, credentials, and passwords out of git.
+
+**When to use**
+
+- Any commit, merge, rebase, cherry-pick, pull that can create a commit, annotated tag, note, push, or hook install.
+
+**How to access**
+
+- Skill: `/skills/git-safety/SKILL.md`
+- Checker: `node .cursor/skills/git-safety/scripts/git-safety.mjs`
+- Repository hooks: `.githooks/` copied into `.git/hooks/` by bootstrap without changing git config
+
+**Common operations**
+
+- Prefix commit-creating commands with `GIT_AUTHOR_NAME='Cursor Agent' GIT_AUTHOR_EMAIL='cursoragent@noreply.github.com' GIT_COMMITTER_NAME='Cursor Agent' GIT_COMMITTER_EMAIL='cursoragent@noreply.github.com'`
+- Run `node --test .cursor/skills/git-safety/scripts/git-safety.test.mjs`
+
+**Constraints**
+
+- Never use a private inbox. Never run `git config` to set identity. Never use `--no-verify`.
+- Do not print secret values when a scan fails.
+
+**Related files**
+
+- `/skills/git-safety/SKILL.md`
+- `/hooks/policy.mjs`
+- `/rules/git-privacy-and-secrets.mdc`
+- `.githooks/`
+
+---
+
+### Tool: Agent policy hooks and security review
+
+**Category**
+
+- security / automation / policy / test
+
+**Purpose**
+
+- Deterministically block secret access, destructive Git, protected-policy mutation, delegated production mutation, and state-changing production operations; independently review security-sensitive changes.
+
+**When to use**
+
+- Hooks run automatically on configured events. Use policy tests and the agent-config validator after governance changes; activate the security role when the routing matrix requires it.
+
+**How to access**
+
+- Project hooks: `/hooks.json` and `/hooks/policy.mjs`.
+- Tests: `node --test .cursor/hooks/policy.test.mjs`.
+- Config validation: `node .cursor/scripts/validate-agent-config.mjs`.
+- Security scanners/plugins: discover what is actually installed and select stack-appropriate tools from verified descriptors and project scripts.
+
+**Constraints**
+
+- Hook role identity is not an authorization signal. Production credentials must remain owner/CI-only.
+- Fail-closed project hooks require a trusted workspace and Node on `PATH`.
+- Repo-local controls can be changed by a human with write access; protected branches, required review, scoped credentials, and organization/provider policy are required for stronger enforcement.
+
+**Related files**
+
+- `/hooks.json`
+- `/hooks/policy.mjs`
+- `/cli.json`
+- `/sandbox.json`
+- `/permissions.json`
+- `/instructions/ROLES.md`
+- `docs/handover/agent-governance-operator-setup.md`
 
